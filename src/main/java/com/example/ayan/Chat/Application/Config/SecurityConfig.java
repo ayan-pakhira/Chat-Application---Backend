@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,10 +38,7 @@ public class SecurityConfig {
                     .authorizeHttpRequests(requests -> requests
                             .requestMatchers("/user/auth/**").permitAll()
                             .requestMatchers("/admin/auth/**").hasRole("ADMIN")
-                            .requestMatchers("/login/auth/**").permitAll()
-                            .requestMatchers("/user/auth/api/**").hasAnyRole("ADMIN", "USER")
-                            .requestMatchers("/user/auth/api/delete/**").hasRole("ADMIN")
-                            .requestMatchers("/task/api/**").hasAnyRole("ADMIN", "USER")
+
 
 
 
@@ -48,6 +46,10 @@ public class SecurityConfig {
 
 
                             .anyRequest().authenticated())
+
+                    .formLogin(Customizer.withDefaults())
+                    .httpBasic(Customizer.withDefaults())
+
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                     //.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

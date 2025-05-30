@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class UserPrincipal implements UserDetails {
@@ -21,7 +22,7 @@ public class UserPrincipal implements UserDetails {
         this.email = user.getEmail();
         this.authorities = user.getRoles().stream().
                 map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .toList();
+                .collect(Collectors.toList());
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
