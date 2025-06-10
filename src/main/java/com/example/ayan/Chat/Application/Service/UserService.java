@@ -50,6 +50,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    //fetch the user with the username
+    //public
 
     public boolean deleteAll(){
         userRepository.deleteAll();

@@ -1,5 +1,6 @@
 package com.example.ayan.Chat.Application.Config;
 
+import com.example.ayan.Chat.Application.Filter.JwtFilter;
 import com.example.ayan.Chat.Application.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,8 +28,8 @@ public class SecurityConfig {
         @Autowired
         private CustomUserDetailsService customService;
 
-//        @Autowired
-//        private JwtFilter jwtFilter;
+       @Autowired
+        private JwtFilter jwtFilter;
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -47,12 +48,9 @@ public class SecurityConfig {
 
                             .anyRequest().authenticated())
 
-                    .formLogin(Customizer.withDefaults())
-                    .httpBasic(Customizer.withDefaults())
-
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
-                    //.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 
                     .build();
         }
