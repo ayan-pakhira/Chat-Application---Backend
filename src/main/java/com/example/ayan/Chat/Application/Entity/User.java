@@ -21,21 +21,14 @@ public class User {
     private ObjectId id;
 
     @NonNull
-    @Indexed(unique = true)
     private String userName;
 
     @NonNull
     private String password;
 
     @NonNull
+    @Indexed(unique = true)
     private String email;
-
-
-    //private boolean isOnline; //after implementing webSocket
-    //private String statusMessage; //through new class
-
-    //private LocalDateTime lastSeen; //after implementing webSocket
-    //private LocalDateTime createdAt; //after implementing webSocket
 
 
     private List<String> roles;

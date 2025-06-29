@@ -25,7 +25,7 @@ public class AdminController {
     //creating the admin
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/register-admin")
-    public ResponseEntity<?> registerAdmin(@RequestBody UserDTO request){
+    public ResponseEntity<?> registerAdmin(@RequestBody User request){
         User createdAdmin = userService.saveAdminEntry(request.getUserName(), request.getPassword(), request.getEmail());
 
         return ResponseEntity.ok("Admin has created");

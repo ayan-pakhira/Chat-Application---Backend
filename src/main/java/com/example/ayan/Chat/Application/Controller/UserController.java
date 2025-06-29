@@ -1,6 +1,7 @@
 package com.example.ayan.Chat.Application.Controller;
 
 import com.example.ayan.Chat.Application.Entity.User;
+import com.example.ayan.Chat.Application.Model.UserDTO;
 import com.example.ayan.Chat.Application.Repository.UserRepository;
 import com.example.ayan.Chat.Application.Service.CustomUserDetailsService;
 import com.example.ayan.Chat.Application.Service.UserService;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,14 +48,14 @@ public class UserController {
         return ResponseEntity.ok("User has created");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user){
+    @PostMapping("/api/login")
+    public ResponseEntity<?> loginUser(@RequestBody UserDTO user){
 
         try{
             auth.authenticate(new UsernamePasswordAuthenticationToken
-                    (user.getUserName(), user.getPassword()));
+                    (user.getEmail(), user.getPassword()));
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
             String jwt = jwtUtil.generateToken(userDetails.getUsername());
             return new ResponseEntity<>(jwt, HttpStatus.OK);
 
@@ -61,6 +64,11 @@ public class UserController {
             return new ResponseEntity<>("incorrect username or password", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+
+
+
 
 
     @DeleteMapping("/delete-users")
