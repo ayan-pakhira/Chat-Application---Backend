@@ -30,6 +30,9 @@ public class User {
     @Indexed(unique = true)
     private String email;
 
-
     private List<String> roles;
+
+    private List<ObjectId> friendRequestSent = new ArrayList<>();
+    private List<ObjectId> friendRequestReceived = new ArrayList<>();
+    private List<ObjectId> friends = new ArrayList<>();
 }

@@ -40,6 +40,7 @@ public class SecurityConfig {
                             .requestMatchers("/public/**").permitAll()
                             .requestMatchers("/user/auth/**").hasAnyRole("USER", "ADMIN")
                             .requestMatchers("/admin/auth/**").hasRole("ADMIN")
+                            .requestMatchers("/friends/**").hasAnyRole("ADMIN", "USER")
 
 
 
