@@ -56,14 +56,9 @@ public class UserService {
     }
 
     //search the users and fetch them if they are registered
-//    public List<User> searchUser(String search, String currentUserId){
-//        currentUserId = getCurrentUserId();
-//        List<User> users = userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search);
-//        String finalCurrentUserId = currentUserId;
-//        return users.stream()
-//                .filter(user -> !user.getId().equals(finalCurrentUserId))
-//                .collect(Collectors.toList());
-//    }
+    public List<User> getUserByUserName(String userName){
+        return userRepository.findByUserNameContainingIgnoreCase(userName);
+    }
 
 
 

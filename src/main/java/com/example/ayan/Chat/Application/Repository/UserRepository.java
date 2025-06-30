@@ -12,6 +12,6 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<User, ObjectId> {
 
     User findByUserName(String userName);
-    //List<User> findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(String userName, String email);
+    List<User> findByUserNameContainingIgnoreCase(String userName);
     User findByEmail(String email);
 }

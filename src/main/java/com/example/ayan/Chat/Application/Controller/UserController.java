@@ -41,40 +41,13 @@ public class UserController {
     private JwtUtil jwtUtil;
 
 
-    @PostMapping("/register-user")
-    public ResponseEntity<?> registerUser(@RequestBody User user){
-        User savedUser = userService.saveUserEntry(user);
-
-        return ResponseEntity.ok("User has created");
-    }
-
-    @PostMapping("/api/login")
-    public ResponseEntity<?> loginUser(@RequestBody UserDTO user){
-
-        try{
-            auth.authenticate(new UsernamePasswordAuthenticationToken
-                    (user.getEmail(), user.getPassword()));
-
-            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-            String jwt = jwtUtil.generateToken(userDetails.getUsername());
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
-
-        } catch (Exception e) {
-            log.error("Exception occurred while createAuthenticationToken ", e);
-            return new ResponseEntity<>("incorrect username or password", HttpStatus.BAD_REQUEST);
-        }
+    //search api for searching the user.
+    @GetMapping("/id/{userName}")
+    public ResponseEntity<?> searchUser(@PathVariable String userName){
+        List<User> users = userService.getUserByUserName(userName);
+        return ResponseEntity.ok(users);
     }
 
 
-
-
-
-
-
-    @DeleteMapping("/delete-users")
-    public ResponseEntity<?> deleteAllUsers(){
-        userService.deleteAll();
-        return ResponseEntity.ok("Deleted all users");
-    }
 
 }
