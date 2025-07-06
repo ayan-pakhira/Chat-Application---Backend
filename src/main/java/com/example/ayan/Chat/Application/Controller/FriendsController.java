@@ -1,10 +1,12 @@
 package com.example.ayan.Chat.Application.Controller;
 
+import com.example.ayan.Chat.Application.Entity.User;
 import com.example.ayan.Chat.Application.Repository.UserRepository;
 import com.example.ayan.Chat.Application.Service.FriendService;
 import com.example.ayan.Chat.Application.Service.JwtService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +50,31 @@ public class FriendsController {
         ObjectId receiverId = jwtService.extractUserId(authHeader);
         friendService.rejectFriendRequest(senderId, receiverId);
         return ResponseEntity.ok("friend request rejected");
+    }
+
+
+    //fetching the friend list, friend request received, friend request sent of a user
+    @GetMapping("/friend-list/{userName}")
+    public ResponseEntity<?> getFriendList(@PathVariable String userName,
+                                           @RequestHeader("Authorization") String authHeader){
+        ObjectId userId = jwtService.extractUserId(authHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("user not found"));
+
+        if(!user.getUserName().equals(userName)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("user is invalid");
+        }
+
+        List<ObjectId> friendList = user.getFriends();
+        List<User> users = userRepository.findAllById(friendList);
+
+        List<ObjectId> friendRequestSent = user.getFriendRequestSent();
+        List<User> userSent = userRepository.findAllById(friendRequestSent);
+
+        List<ObjectId> friendRequestReceived = user.getFriendRequestReceived();
+        List<User> userReceived = userRepository.findAllById(friendRequestReceived);
+
+        return ResponseEntity.ok(userReceived);
+
     }
 }
