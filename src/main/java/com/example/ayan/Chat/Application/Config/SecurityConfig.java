@@ -42,6 +42,7 @@ public class SecurityConfig {
                             .requestMatchers("/admin/auth/**").hasRole("ADMIN")
                             .requestMatchers("/friends/**").hasAnyRole("ADMIN", "USER")
                             .requestMatchers("/group/**").hasAnyRole("ADMIN", "USER")
+                            .requestMatchers("/group-message/**").hasAnyRole("ADMIN", "USER")
 
 
 
